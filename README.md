@@ -104,7 +104,7 @@ ML FE EDA/
 ├── requirements.txt        # Python dependencies
 ├── README.md               # GitHub documentation
 └── utils/
-    └── preprocessing.py    # Preprocessing and helper functions
+    └── preprocessing.py    # CAN DO THIS OPTIONALLY- Add all preprocessing and helper functions
 ```
 
 ## Notes
