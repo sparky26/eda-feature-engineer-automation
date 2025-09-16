@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ## Robust Universal EDA + Feature Engineering Assistant
-A Streamlit-based tool for robust exploratory data analysis (EDA) of any CSV dataset, with AI-powered recommendations for feature engineering and modeling guidance.
+A Streamlit-based tool for robust exploratory data analysis (EDA) of any CSV dataset, with AI-powered recommendations for feature engineering and modeling guidance. It also implements the features automatically to the dataset ready for download and analysis.
 
 ## Features
 * Automatic preprocessing of mixed-type columns (numeric, categorical, datetime, nested objects).
@@ -20,6 +20,7 @@ A Streamlit-based tool for robust exploratory data analysis (EDA) of any CSV dat
     * Highlight problematic columns
     * Guided by user-provided scenario context
     * Handles large datasets efficiently via sampling and plot limits.
+    * Implementation of suggested features automatically into a downloadable .csv
 
 ## Installation
 
@@ -88,9 +89,10 @@ Optionally, provide a scenario description and click *Ask Feature Engine for Rec
 
 ## Feature Engine Recommendations
 
-Uses the Groq API to suggest:
-* Additional engineered features
-* Problematic columns
+* Uses the Groq API to suggest:
+   * Additional engineered features
+   * Problematic columns
+* Automatically implements engineered features into the dataset and transforms the data for download.
 
 User provides:
 * Dependent column
@@ -99,12 +101,12 @@ User provides:
 
 ## Project Structure
 ```
-ML FE EDA/
+eda-feature-engineer-automation/
 ├── main.py                  # Streamlit main app
 ├── requirements.txt        # Python dependencies
 ├── README.md               # GitHub documentation
 └── utils/
-    └── preprocessing.py    # CAN DO THIS OPTIONALLY- Add all preprocessing and helper functions
+    └── preprocessing.py    # Add all preprocessing and helper functions
 ```
 
 ## Notes
