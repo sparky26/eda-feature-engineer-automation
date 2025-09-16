@@ -192,13 +192,13 @@ def main():
         robust_eda(df_clean, target, max_plots=max_plots, pairplot_sample=pairplot_sample)
 
     if run_groq_btn:
-        scenario_text = st.text_area("Scenario description for Groq AI", "")
+        scenario_text = st.text_area("Scenario description for Feature Recommender", "")
         if not scenario_text.strip():
             st.warning("Please provide scenario text for Groq recommendations.")
         else:
             with st.spinner("Contacting Groq..."):
                 analysis = ask_groq_for_recommendations(features, target, scenario_text)
-                st.subheader("🤖 Groq AI Recommendations (Raw)")
+                st.subheader("🤖 Feature Engine Recommendations (Raw)")
                 st.markdown(analysis)
 
                 # Parse & apply
