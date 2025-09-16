@@ -52,7 +52,7 @@ set GROQ_API_KEY=your_api_key_here       # Windows
 
 Run the Streamlit app:
 ```
-streamlit run app.py
+streamlit run main.py
 ```
 * Upload your CSV dataset.
 * Select the dependent (target) column.
@@ -100,7 +100,7 @@ User provides:
 ## Project Structure
 ```
 ML FE EDA/
-├── app.py                  # Streamlit main app
+├── main.py                  # Streamlit main app
 ├── requirements.txt        # Python dependencies
 ├── README.md               # GitHub documentation
 └── utils/
