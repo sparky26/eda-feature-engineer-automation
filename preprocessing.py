@@ -40,28 +40,16 @@ def preprocess_dataframe(
     drop_constant: bool = True,
     drop_high_corr: float = 0.95
 ) -> pd.DataFrame:
-    """
-    Preprocess any CSV for robust EDA & ML.
-    Steps:
-    1. Clean column names.
-    2. Type inference (numeric, datetime, categorical).
-    3. Handle missing values.
-    4. Optional: scale numeric features.
-    5. Optional: cap outliers.
-    6. Drop constant / high-correlation columns.
-    """
     df = df.copy()
     df.columns = df.columns.astype(str).str.strip()
 
     # ---- Type inference ----
     for col in df.columns:
         if df[col].dtype == "object":
-            # Try convert to numeric
             numeric_col = pd.to_numeric(df[col], errors="coerce")
             if numeric_col.notna().sum() / len(df) > 0.8:
                 df[col] = numeric_col
             else:
-                # Try datetime
                 dt_col = pd.to_datetime(df[col], errors="coerce")
                 if dt_col.notna().sum() / len(df) > 0.8:
                     df[col] = dt_col
@@ -69,41 +57,54 @@ def preprocess_dataframe(
                     df[col] = df[col].astype(str)
 
     # ---- Handle missing values ----
-    num_cols = df.select_dtypes(include=np.number).columns
-    cat_cols = df.select_dtypes(include=["object", "category"]).columns
+    num_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+    cat_cols = df.select_dtypes(include=["object", "category"]).columns.tolist()
 
-    if impute_numeric != "none" and len(num_cols) > 0:
-        strategy = "mean" if impute_numeric == "mean" else "median"
+    if impute_numeric != "none" and num_cols:
+        strategy = "median" if impute_numeric == "median" else "mean"
         imputer = SimpleImputer(strategy=strategy)
-        df[num_cols] = imputer.fit_transform(df[num_cols])
+        imputed = imputer.fit_transform(df[num_cols])
 
-    if impute_categorical and len(cat_cols) > 0:
+        # ✅ Safe fix: realign imputed cols
+        imputed_df = pd.DataFrame(imputed, columns=num_cols[:imputed.shape[1]], index=df.index)
+        for col in imputed_df.columns:
+            df[col] = imputed_df[col]
+
+    if impute_categorical and cat_cols:
         df[cat_cols] = df[cat_cols].fillna("missing")
 
-    # ---- Cap outliers (numeric) ----
-    if cap_outliers and len(num_cols) > 0:
+    # ---- Cap outliers ----
+    if cap_outliers:
+        num_cols = df.select_dtypes(include=[np.number]).columns.tolist()
         for col in num_cols:
             lower, upper = df[col].quantile([0.01, 0.99])
             df[col] = np.clip(df[col], lower, upper)
 
     # ---- Scale numeric ----
-    if scale_numeric and len(num_cols) > 0:
-        scaler = StandardScaler() if scale_numeric == "standard" else MinMaxScaler()
-        df[num_cols] = scaler.fit_transform(df[num_cols])
+    if scale_numeric:
+        num_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+        if num_cols:
+            scaler = StandardScaler() if scale_numeric == "standard" else MinMaxScaler()
+            df[num_cols] = scaler.fit_transform(df[num_cols])
 
-    # ---- Drop constant columns ----
+    # ---- Drop constant ----
     if drop_constant:
         constant_cols = [col for col in df.columns if df[col].nunique() <= 1]
-        df.drop(columns=constant_cols, inplace=True)
+        if constant_cols:
+            df.drop(columns=constant_cols, inplace=True)
 
-    # ---- Drop highly correlated numeric columns ----
-    if drop_high_corr and len(num_cols) > 1:
-        corr_matrix = df[num_cols].corr().abs()
-        upper_tri = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-        to_drop = [column for column in upper_tri.columns if any(upper_tri[column] > drop_high_corr)]
-        df.drop(columns=to_drop, inplace=True)
+    # ---- Drop highly correlated ----
+    if drop_high_corr:
+        num_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+        if len(num_cols) > 1:
+            corr_matrix = df[num_cols].corr().abs()
+            upper_tri = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
+            to_drop = [column for column in upper_tri.columns if any(upper_tri[column] > drop_high_corr)]
+            if to_drop:
+                df.drop(columns=to_drop, inplace=True)
 
     return df
+
 
 # ==========================================================
 # Robust EDA
