@@ -2,7 +2,7 @@
 ![Streamlit](https://img.shields.io/badge/streamlit-1.30-orange)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-## Robust Universal EDA + Feature ENgineering Assistant
+## Robust Universal EDA + Feature Engineering Assistant
 A Streamlit-based tool for robust exploratory data analysis (EDA) of any CSV dataset, with AI-powered Groq recommendations for feature engineering and modeling guidance.
 
 ## Features
