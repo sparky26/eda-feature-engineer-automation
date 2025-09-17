@@ -2,7 +2,7 @@
 ![Streamlit](https://img.shields.io/badge/streamlit-1.30-orange)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-## Universal Exploratory Data Analysis + Feature Engineering Assistant
+## YeetDA – yeets your dataset straight into enlightenment.
 A Streamlit-based tool for exploratory data analysis (EDA) of any CSV dataset, with AI-powered recommendations for feature engineering and modeling guidance. It also implements the features automatically to the dataset ready for download and analysis.
 
 ## Features
