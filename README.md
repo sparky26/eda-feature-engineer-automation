@@ -105,7 +105,10 @@ eda-feature-engineer-automation/
 ├── main.py                  # Streamlit main app
 ├── requirements.txt        # Python dependencies
 ├── README.md               # GitHub documentation
-└── preprocessing.py    # Add all preprocessing and helper functions
+├── data_processor.py   # Add all preprocessing and helper functions
+├── eda_vidualizer.py
+├── ai_service.py
+├── ui_components.py
 ```
 
 ## Notes
