@@ -7,19 +7,18 @@ A Streamlit-based tool for exploratory data analysis (EDA) of any CSV dataset, w
 
 ## Features
 * Automatic preprocessing of mixed-type columns (numeric, categorical, datetime, nested objects).
-* Robust EDA for numeric and categorical features:
-    * Distribution plots
-    * Correlation heatmaps
-    * Pairplots (sampled for large datasets)
-    * Target-aware analysis (numeric or categorical target)
-    * Feature vs target visualizations (boxplots, scatterplots, countplots)
-    * Missing value reporting with counts and percentages.
+* Target-focused EDA for numeric and categorical features:
+    * Target distribution
+    * Numeric features vs target (scatterplots or boxplots depending on target type)
+    * Categorical features vs target (grouped barplots or boxplots)
+    * Correlation heatmaps showing numeric feature correlation with target
+    * Missing value reporting with counts and percentages
 
 * AI Recommendations via GPT-OSS120B:
     * Suggest additional engineered features
     * Highlight problematic columns
     * Guided by user-provided scenario context
-    * Handles large datasets efficiently via sampling and plot limits.
+    * Handles large datasets efficiently via sampling and plot limits
     * Implementation of suggested features automatically into a downloadable .csv
 
 ## Installation
@@ -71,18 +70,16 @@ Optionally, provide a scenario description and click *Ask Feature Engine for Rec
 
 * Numeric Columns:
     * Descriptive statistics (mean, std, min, max, etc.)
-    * Distribution plots and KDE
-    * Correlation heatmaps
-    * Sampled pairplots
+    * Numeric features vs target
+    * Correlation heatmap of numeric features with target
 
 * Categorical Columns:
     * Unique values, mode
-    * Barplots of top 50 categories
+    * Categorical features vs target
 
 * Target-Centric Analysis:
-    * Target distribution
-    * Numeric features vs target (scatter or boxplots)
-    * Categorical features vs target (countplots or boxplots)
+    * Distribution of target variable
+    * Relationship plots between features and target
 
 * Missing Values Analysis:
     * Count and percentage of missing data per column
@@ -103,12 +100,12 @@ User provides:
 ```
 eda-feature-engineer-automation/
 ├── main.py                  # Streamlit main app
-├── requirements.txt        # Python dependencies
-├── README.md               # GitHub documentation
-├── data_processor.py   # Add all preprocessing and helper functions
-├── eda_vidualizer.py
-├── ai_service.py
-├── ui_components.py
+├── requirements.txt         # Python dependencies
+├── README.md                # GitHub documentation
+├── data_processor.py        # Preprocessing and helper functions
+├── eda_visualizer.py        # Target-focused EDA logic
+├── ai_service.py            # AI feature engine service
+├── ui_components.py         # UI components
 ```
 
 ## Notes
@@ -124,5 +121,5 @@ eda-feature-engineer-automation/
 
 Please ensure code is well-documented and functions remain modular
 
-License
+## License
 This project is licensed under the MIT License.
